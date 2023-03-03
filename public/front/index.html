@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../front/style.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.6.11/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/9.6.11/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/9.6.11/firebase-performance-compat.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <title>StudentPlanner</title>
+    <script src="../front/clock.js"></script>
+    <script src="../front/secret.js"></script>
+    <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+    <link rel="icon" href="../src/logo.png" type="image/x-icon">
+  </head>
+  <body onload="startTime(), startDate(), secretCode()">
+    <!--header-->
+    <header>
+      <div class="slider-count">
+        <div class="slider">
+            <input type="range" min="0" max="100" value="50">
+            <progress min="0" max="100" value="50"></progress>
+        </div>
+        <div class="sliderValue">50</div>
+        <div class="control">
+          <div class="timeline">
+            <audio loop id="muse">
+              
+              <source  src="../music player/cute.mp3" type="audio/mp3" />
+            </audio loop>
+          </div>
+          <button class="play" id="toggle-music"></button>
+          </div>
+      </div>  
+
+    </div>
+    </header>
+
+
+    <div id = "login-content">
+      <form id="Login-form">
+        <h1>Login</h1>
+        <table class="auth-table" id="popup-schedule">
+          <tbody>
+            <tr>
+              <td class="form-label"><label for="subject">Username :</label></td>
+              <td class="form-inp"><input class="log-inp" type="text" id="login-username" /></td>
+            </tr>
+            <tr>
+              <td class="form-label"><label for="title">Password :</label></td>
+              <td class="form-inp"><input class="log-inp" type="password" id="login-password" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="auth-submit-table">
+          <tr>
+            <td><button class="auth-submit" id="Login" >Login</button></td>
+          </tr>
+        </table>
+      </form>
+
+      <form id="Register-form" style="margin-bottom: 100px;" autocomplete="off"> 
+        <h1>Register</h1>
+        <table class="auth-table" id="popup-schedule">
+          <tbody>
+            <tr>
+              <td class="form-label"><label for="subject">Username :</label></td>
+              <td class="form-inp"><input class="log-inp" type="text" id="register-username" /></td>
+            </tr>
+            <tr>
+              <td class="form-label"><label for="title">Password :</label></td>
+              <td class="form-inp"><input class="log-inp" type="password" id="register-password" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <table  class="auth-submit-table">
+          <tr>
+            <td><button class="auth-submit" id="Register">Register</button></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+    
+    <div style="display: none;" id="content">
+      <!--link to site , clock-->
+      <nav>
+        <button
+          onclick="window.open('https:\/\/www.mycourseville.com/', '_blank')"
+          class="link"
+        >
+          MyCourseVille
+        </button>
+        <button
+          onclick="window.open('https:\/\/blackboard.it.chula.ac.th/', '_blank')"
+          class="link"
+        >
+          Blackboard Chula
+        </button>
+        <div id="datetime">
+          <time id="time"></time>
+          <br />
+          <time id="date"></time>
+        </div>
+        <button id="log-out">
+          LogOut
+        </button>
+      </nav>
+      <hr />
+
+      <!--Schedule-->
+      <div class="section" id="schedule">
+        <div class="section-title">
+          <div class="label">
+            <button class="add-item" id="open-schedule"></button>
+            <h1>Schedule</h1>
+          </div>
+          <div class="filter">
+            <label class="filter-item" for="range">Due in</label>
+            <select
+              class="filter-item"
+              name="range"
+              id="schedule-range"
+              onchange="schedulechange()"
+            >
+              <option value="all">all</option>
+              <option value="7days">7 days</option>
+              <option value="today">today</option>
+            </select>
+            <label class="filter-item" for="status">status is</label>
+            <select
+              class="filter-item"
+              name="status"
+              id="schedule-status"
+              onchange="schedulechange()"
+            >
+              <option value="all">all</option>
+              <option value="Not Started">not started</option>
+              <option value="In progress">in progress</option>
+              <option value="Done">done</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-content" id="schedule-body">
+          </div>
+      </div>
+      <hr />
+
+      <div class="modal-container" id="modal-schedule">
+        <form class="modal" id="schedule-form">
+          <h1>Add or edit schedule</h1>
+          <table class="popup-table" id="popup-schedule">
+            <tbody>
+              <tr>
+                <td><label for="subject">Subject :</label></td>
+                <td><input class="inp" type="text" id="subject-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="title">Title :</label></td>
+                <td><input class="inp" type="text" id="title-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="datetime">Date & Time :</label></td>
+                <td>
+                  <input class="inp" type="datetime-local" id="datetime-to-add" />
+                </td>
+              </tr>
+              <tr>
+                <td><label for="status">Status :</label></td>
+                <td>
+                  <select class="inp" name="status" id="status-to-add">
+                    <option value="Done">Done</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Not Started">Not Started</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="group-button-table">
+            <tr>
+              <td><button class="cancel" id="close-schedule">Cancel</button></td>
+              <td><button class="save" id="save-schedule">Save</button></td>
+              <td>
+                <button class="edit-save" id="editsave-schedule">
+                  Save Edit
+                </button>
+              </td>
+              <td><button class="delete" id="delete-schedule">Delete</button></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+
+      <!--Homework-->
+      <div class="section" id="homework">
+        <div class="section-title">
+          <div class="label">
+            <button class="add-item" id="open-homework"></button>
+            <h1>Homework</h1>
+          </div>
+          <div class="filter">
+            <label class="filter-item" for="range">Due in</label>
+            <select
+              class="filter-item"
+              name="range"
+              id="homework-range"
+              onchange="homeworkchange()"
+            >
+              <option value="all">all</option>
+              <option value="7days">7 days</option>
+              <option value="today">today</option>
+            </select>
+            <label class="filter-item" for="status">status is</label>
+            <select
+              class="filter-item"
+              name="status"
+              id="homework-status"
+              onchange="homeworkchange()"
+            >
+              <option value="all">all</option>
+              <option value="Not Started">not started</option>
+              <option value="In progress">in progress</option>
+              <option value="Done">done</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-content" id="homework-body">
+        </div>
+      </div>
+      <hr />
+
+      <div class="modal-container" id="modal-homework">
+        <form class="modal" id="homework-form">
+          <h1>Add or edit homework</h1>
+          <table class="popup-table" id="popup-homework">
+            <tbody>
+              <tr>
+                <td><label for="subject">Subject :</label></td>
+                <td><input class="inp" type="text" id="subject-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="title">Title :</label></td>
+                <td><input class="inp" type="text" id="title-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="datetime">Date & Time :</label></td>
+                <td>
+                  <input class="inp" type="datetime-local" id="datetime-to-add" />
+                </td>
+              </tr>
+              <tr>
+                <td><label for="status">Status :</label></td>
+                <td>
+                  <select class="inp" name="status" id="status-to-add">
+                    <option value="Done">Done</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Not Started">Not Started</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="group-button-table">
+            <tr>
+              <td><button class="cancel" id="close-homework">Cancel</button></td>
+              <td><button class="save" id="save-homework">Save</button></td>
+              <td>
+                <button class="edit-save" id="editsave-homework">
+                  Save Edit
+                </button>
+              </td>
+              <td><button class="delete" id="delete-homework">Delete</button></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+
+      <!--Exam-->
+      <div class="section" id="subject">
+        <div class="section-title">
+          <div class="label">
+            <button class="add-item" id="open-exam"></button>
+            <h1>Exam</h1>
+          </div>
+          <div class="filter">
+            <label class="filter-item" for="range">in</label>
+            <select class="filter-item" name="range" id="exam-range" onchange="examchange()">
+              <option value="all">all</option>
+              <option value="7days">7 days</option>
+              <option value="today">today</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-content" id = "exam-body">
+          <div class="content-item">
+            <h6>Calculus II</h6>
+            <h3>Quiz Integral</h3>
+            <h5>10/10/2020 10:00</h5>
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div class="modal-container" id="modal-exam">
+        <form class="modal" id="exam-form">
+          <h1>Add or edit exam</h1>
+          <table class="popup-table" id="popup-exam">
+            <tbody>
+              <tr>
+                <td><label for="subject">Subject :</label></td>
+                <td><input class="inp" type="text" id="subject-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="title">Title :</label></td>
+                <td><input class="inp" type="text" id="title-to-add" /></td>
+              </tr>
+              <tr>
+                <td><label for="datetime">Date & Time :</label></td>
+                <td>
+                  <input class="inp" type="datetime-local" id="datetime-to-add" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="group-button-table">
+            <tr>
+              <td><button class="cancel" id="close-exam">Cancel</button></td>
+              <td><button class="save" id="save-exam">Save</button></td>
+              <td>
+                <button class="edit-save" id="editsave-exam">
+                  Save Edit
+                </button>
+              </td>
+              <td><button class="delete" id="delete-exam">Delete</button></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+
+      <!--Subject-->
+      <div class="section" id="subject">
+        <div class="section-title">
+          <div class="label">
+            <h1>Subject</h1>
+            
+          </div>
+          <div class="filter">
+            <input
+              type="text"
+              name="addsubject"
+              id="add-subject-input"
+              placeholder="type your new subject"
+              autocomplete="off"
+            />
+            <button id="add-subject-button">Add</button>
+            <label class="filter-item" for="subject">watching</label>
+            <select class="filter-item" name="subject" id="dropdown-subject" onchange="subjectchange()">
+              <!-- <option value="calculus2">Calculus II</option>
+              <option value="genphys2">Gen Phys II</option> -->
+            </select>
+            <button id="remove-subject-button">Remove this subject</button>
+          </div>
+        </div>
+        <div class="section-content">
+          <table id="subject-table">
+            <thead>
+              <tr>
+                <th>&ensp;Title</th>
+                <th>&ensp;link or info</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id = "subject-body">
+              <tr>
+                <td class="title">Echo 360</td>
+                <td class="info">Link</td>
+                <td class="remove">
+                  <button
+                    class="remove-row-button"
+                    onclick="deleteItem('${subject.id}')"
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>
+                  <input
+                    type="title"
+                    name="title"
+                    class="new-row-input"
+                    id="subject-title-input"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="info"
+                    name="info"
+                    class="new-row-input"
+                    id="subject-info-input"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    id="add-row-button"
+                    onclick="addSubjectsInTable()"
+                  >
+                    Add
+                  </button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+     
+  </body>
+  <script type="module" src="../back/schedule.js"></script>
+  <script type="module" src="../back/subjectTable.js"></script>
+  <script type="module" src="../back/homework.js"></script>
+  <script type="module" src="../back/exam.js"></script>
+  <script type="module" src="../volume/volumeAdjust.js"></script>
+  <script type="module" src="../back/auth.js"></script>
+</html>

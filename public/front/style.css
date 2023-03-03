@@ -1,0 +1,594 @@
+@import url('https://fonts.googleapis.com/css2?family=Athiti:wght@200;300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    font-family: Athiti;
+}
+
+button {
+    font-weight: 600;
+    cursor: grab;
+}
+
+button:active {
+    cursor: grabbing;
+}
+
+select {
+    cursor: pointer;
+}
+/* header */
+header {
+    background-image: url(../src/banner.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 25vw;
+}
+
+#toggle-music {
+    width: min(50px, 10vw);
+    height: min(50px, 10vw);
+    font-size: 16pt;
+    border-radius: 100%;
+    background-color: white;
+}
+
+
+.pause {
+    background: url('../volume/unmute.png') 0 0 / contain no-repeat;
+    border: 3px solid rgb(91, 255, 154);
+  }
+  
+.play {
+    background: url('../volume/mute.png') 0 0 / contain no-repeat;
+    border: 3px solid rgb(255, 109, 109);
+}
+
+.slider-count {
+    padding: 5px 25px;
+    background-color: rgb(201, 201, 201);
+    border-radius: 5px 30px 30px 25px;
+    display: grid;
+    grid-template-columns: 65% 20% 15%;
+    align-items: center;
+    width: min(30%, 300px);
+    position: fixed;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+.slider input {
+    position: absolute;
+    left: -6px;
+    top: 0;
+    width: 100%;
+    height: 20px;
+    -webkit-appearance: none;
+    background-color: transparent;
+    z-index: 99;
+}
+
+.slider input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 2px solid rgb(61, 61, 61);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider progress {
+    width: 100%;
+    height: 20px;
+    -webkit-appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.slider progress::-webkit-progress-bar {
+    background-color: rgb(255, 255, 255);
+}
+
+.slider progress::-webkit-progress-value {
+    background-color: rgb(61, 61, 61);
+}
+
+.sliderValue {
+    font-family: Tahoma;
+    width: 28px;
+    height: 20px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.control {
+    font-size: 0.9em;
+    color: #72646f;
+  
+    margin-top: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline {
+    display: flex;
+    align-items: center;
+}
+
+/* root */
+nav, div.section, hr {
+    margin: 5vw;
+}
+
+hr {
+    border-top: 1px solid black;
+}
+
+/* nav */
+
+
+button.link {
+    width: auto;
+    margin-right: 3px, 3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    background-color: rgb(255, 231, 187);
+    border: 0;
+    box-shadow: 2px;
+    transition: 0.4s;
+
+}
+
+button.link:hover {
+    background-color: rgb(255, 181, 111);
+    border-radius: 10px;
+    transition: 0.4s;
+    width: 20%;
+}
+
+button.link:active {
+    background-color: rgb(255, 123, 0);
+    color: white;
+    transition: 0.4;
+
+}
+
+div#datetime {
+    float: right;
+}
+
+time#time {
+    float: right;
+    font-size: min(24pt, 5vw);
+}
+
+time#date{
+    float: right;
+    font-size: min(12pt, 3vw);
+}
+
+button#log-out {
+    width: auto;
+    margin-right: 3px, 3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    border: 0;
+    border-radius: 20px;
+    background-color: rgb(255, 160, 160);
+}
+
+button#log-out:hover {
+    background-color: rgb(255, 80, 80);
+}
+
+button#log-out:active {
+    width: 10%
+}
+/* section-title */
+.section-title {
+    display: flex;
+
+}
+
+.label {
+    display: inline;
+
+}
+
+h1 {
+    font-size: min(24pt, 5vw);
+    display: inline;
+}
+
+button.add-item{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border:1px solid;
+    background-image: url("../src/plus.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+button.add-item:hover {
+    border-radius: 30%;
+    transition: 0.2s;
+}
+
+button.add-item:active {
+    width: 2em;
+    height: 2em;
+
+}
+
+.filter {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: right;
+
+}
+
+.filter > .filter-item {
+    margin-left: 1vw;
+    width: max(60px, 10vw);
+}
+
+label.filter-item {
+    font-weight: 800;
+}
+
+select.filter-item {
+    background-color: rgb(53, 53, 53);
+    color: white;
+    border-radius: 5px;
+
+}
+
+/* section-content */
+.section-content {
+    overflow-x: auto;
+    clear: both;
+    width: 100%;
+}
+
+div.content-item {
+    background-color: lightgray;
+    float: left;
+    margin: 10px;
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+    cursor: grab;
+    transition: 0.3s;
+}
+
+div.content-item:hover {
+    background-color: rgb(170, 170, 170);
+    transition: 0.3s;
+}
+
+div.content-item:active {
+    cursor: grabbing;
+    border-radius: 10px;
+}
+
+h6 {
+    font-size: 10pt;
+    text-align: center;
+    font-weight: normal;
+    background-color: rgb(255, 255, 255);
+}
+
+h3 {
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 10pt;
+    font-weight: normal;
+}
+
+p.status {
+    text-align: center;
+    color: white;
+    font-size: 10pt;
+    font-weight: 600;
+    width: 100px;
+    border-radius: 5%;
+    float: right;
+}
+
+p.done {
+    background-color: rgb(28, 175, 114);
+}
+
+p.inprogress {
+    background-color: rgb(255, 165, 0);
+}
+
+p.notstarted {
+    background-color: rgb(255, 65, 65);
+}
+
+/* subject */
+#add-subject-input{
+    width: auto;
+    
+}
+
+#add-subject-button{
+    width: auto;
+    margin-right: 1vw;
+    background-color: rgb(186, 243, 186);
+    border-radius: 5px;
+    border: 0;
+}
+#add-subject-button:hover{
+    background-color: rgb(142, 240, 142);
+}
+#add-subject-button:active{
+    border-radius: 10px;
+}
+
+#remove-subject-button{
+    width: auto;
+    background-color: rgb(255, 108, 108);
+    border-radius: 5px;
+    border: 0;
+}
+
+#remove-subject-button:hover{
+    background-color: rgb(255, 93, 93);
+}
+
+#remove-subject-button:active{
+    border-radius: 10px;
+}
+
+#subject-table {
+    width: 100%;
+}
+
+#subject-table th {
+    background-color: rgb(80, 80, 80);
+    text-align: left;
+    color: white;
+    border-radius: 5px;
+}
+
+#subject-table tbody td {
+    background-color: rgb(237, 245, 252);
+}
+#subject-table tbody td.isurl {
+    cursor: pointer;
+}
+
+#subject-table td.title {
+    width: 30%;
+}
+#subject-table td.remove {
+    width: 10px;
+}
+
+#subject-table button.remove-row-button {
+    width :100%;
+    background-color: rgb(247, 181, 181);
+    border-radius: 5px;
+    border: 0;
+}
+
+#subject-table button.remove-row-button:hover {
+    background-color: rgb(247, 144, 144);
+}
+
+#subject-table button.remove-row-button:active {
+    border-radius: 10px;
+}
+
+#subject-table .new-row-input {
+    width: 98%;
+
+}
+
+#subject-table #add-row-button {
+    width: 100%;
+    background-color: antiquewhite;
+    border-radius: 5px;
+    border: 0;
+}
+
+#subject-table #add-row-button:hover {
+    background-color: rgb(253, 205, 143);
+}
+
+#subject-table #add-row-button:active {
+    border-radius: 10px;
+}
+
+/* pop-up */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-container.show {
+    pointer-events: auto;
+    opacity: 1;
+    transition: 0.5s;
+}
+.modal {
+    background-color: #fff;
+    width: auto;
+    height: auto;
+    padding: 3%;
+    text-align: center;
+}
+
+.modal button {
+    width: 50px;
+}
+
+.modal h1 {
+    font-size: 200%;
+    text-align: center;
+}
+
+.popup-table
+{
+    text-align: left;
+    width: 100%
+}
+
+.inp {
+    width: 100%;
+}
+
+.group-button-table {
+    width: 100%;
+}
+
+.group-button-table td {
+    width: 25%;
+}
+
+.group-button-table button {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.group-button-table button.cancel {
+    background-color:rgb(224, 224, 224);
+    border: 0;
+}
+
+.group-button-table button.cancel:hover {
+    background-color:rgb(180, 180, 180);
+}
+
+.group-button-table button.cancel:active {
+    border-radius: 10px;
+}
+
+.group-button-table button.save, .group-button-table button.edit-save {
+    background-color:rgb(182, 255, 173);
+    border: 0;
+}
+
+.group-button-table button.save:hover, .group-button-table button.edit-save:hover{
+    background-color:rgb(130, 247, 114);
+}
+
+.group-button-table button.save:active, .group-button-table button.edit-save:active{
+    border-radius: 10px;
+}
+
+.group-button-table button.delete {
+    background-color: rgb(255, 196, 196);
+    border: 0;
+}
+
+.group-button-table button.delete:hover {
+    background-color: rgb(255, 144, 144);
+}
+
+.group-button-table button.delete:active {
+    border-radius: 10px;
+}
+
+
+
+/* login - register */
+#login-content {
+    display: grid;
+    grid-template-columns: auto;
+    text-align: center;
+}
+
+#login-content form {
+    margin-top: 40px;
+}
+
+input.log-inp {
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    background-color: rgb(233, 233, 233);
+}
+
+.auth-table{
+    border-collapse: separate;
+    border-spacing: 0px 0;
+    margin-left: 24vw;
+    margin-right: 30vw;
+    
+}
+
+.auth-table td {
+    padding: 5px 0;
+}
+
+#login-content td.form-label {
+    width: 13vw;
+    text-align: center;
+}
+
+#login-content td.form-inp {
+    width: 25vw;
+    text-align: center;
+}
+
+.auth-submit-table {
+    text-align: center;
+    width: 100%;
+}
+.auth-submit {
+    width: 10%;
+    border: 0;
+    border-radius: 15px;
+    background-color: #777777;
+    color: white;
+    transition: 0.3s;
+}
+
+.auth-submit:hover {
+    background-color: #424242;
+}
+
+.auth-submit:active {
+    width: 20%;
+    transition: 0.3s;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px rgb(233, 233, 233) inset;
+    -webkit-text-fill-color: rgb(0, 0, 0) !important;
+}
